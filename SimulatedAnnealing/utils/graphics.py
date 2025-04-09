@@ -2,12 +2,12 @@ from .cooling import equations
 
 import matplotlib.pyplot as plt 
 
-def create_plot(list_interation: list[int], list_values: list[int], list_temperature: list[int], eq: int = 0) -> None:    
+def create_plot(name: str, list_interation: list[int], list_values: list[int], list_temperature: list[int], eq: int = 0) -> None:    
     fig, ax = plt.subplots()
     
     color = 'tab:blue'
     
-    ax.plot(list_interation, list_values, linewidth=2, label=equations[eq])
+    ax.plot(list_interation, list_values, linewidth=2, label='\n'.join(equations[eq].split(',')))
     ax.set(
             xlim=(0, len(list_interation)), 
             ylim=(0, max(list_values)),
@@ -34,4 +34,24 @@ def create_plot(list_interation: list[int], list_values: list[int], list_tempera
     
     fig.tight_layout()
     
-    plt.show()
+    plt.savefig(f"images/{name}", format='png')
+    plt.close()
+    
+def create_box_plots(name: str, labels: list[str], weights: list[list[int]]) -> None:
+    fig, ax = plt.subplots()
+    
+    colors = ['peachpuff', 'orange', 'tomato']
+    
+    ax.set_ylabel('Número de Cláusulas Falsas')
+    
+    bplot = ax.boxplot(
+        weights,
+        patch_artist=True,
+        tick_labels=labels
+    )
+    
+    for patch, color in zip(bplot['boxes'], colors):
+        patch.set_facecolor(color)
+        
+    plt.savefig(f"images/{name}", format='png')
+    plt.close()

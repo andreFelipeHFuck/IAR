@@ -25,7 +25,7 @@ def generate_T0_average(clauses: Clauses, num_literals: int, num_neighbors: int)
             
     return float(best_neighbor)
 
-def generate_T0_simulated(clauses: Callable, num_literals: int, SA_max: int, T0: float, acceptance_rate: float) -> float:
+def generate_T0_simulated(clauses: Clauses, num_literals: int, SA_max: int, T0: float, acceptance_rate: float) -> float:
     num_neighbor_acceptances = 0
     
     l = Literals(num_literals)
@@ -41,7 +41,10 @@ def generate_T0_simulated(clauses: Callable, num_literals: int, SA_max: int, T0:
             delta: int  = clauses.calcule_delta_between_neighbors(l, n, list_i)
 
             x: float = random()
-                
+            
+            print((delta))
+            print(T0)
+            print(-delta / T0)
             if x < e ** (-delta / T0):
                 num_neighbor_acceptances += 1
             
@@ -70,7 +73,7 @@ def simulatedAnnealing(clauses: Clauses, alpha: Callable[[float, float, int, int
     
     # while best_solution.get_num_clauses_falses() > 0 and T > TN:
     
-    while T > TN:
+    while i < N:
             
         best_solution_local: int = s.get_num_clauses_falses()
         while inter_T < SA_max:
@@ -95,8 +98,7 @@ def simulatedAnnealing(clauses: Clauses, alpha: Callable[[float, float, int, int
                     
             if s.get_num_clauses_falses() < best_solution_local:
                 best_solution_local = s.get_num_clauses_falses()
-                                
-        T = alpha(T0, TN, i, N)
+                T = alpha(T0, TN, i, N)
         
         list_interation.append(i)
         list_values.append(best_solution_local)

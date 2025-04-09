@@ -47,12 +47,9 @@ class Literals:
         neighbor.set_literals(self._literals.copy())
         
         num_elem_reached: int = ceil(self._num_literals * percen_num_reachead)
-        print(num_elem_reached)
         
         list_random_index: list[int] = sample([i for i in range(0, self._num_literals - 1,)], num_elem_reached)
-        
-        print("Randoom list:", list_random_index)
-        
+                
         for i in list_random_index:        
             neighbor.neg_index(i)
                         
