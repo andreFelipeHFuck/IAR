@@ -3,6 +3,10 @@
 """
 
 from math import log, e, pi, cos, tanh, cosh
+from decimal import Decimal, getcontext
+
+getcontext().prec = 50
+euler = Decimal(e)
 
 equations = {
     0: r"$T_i =  T_0 - i \frac{T_0 - T_N}{N}$",   
@@ -35,7 +39,7 @@ def cooling_schedule_3(T0: float, TN: float, i: int, N: int) -> float:
     return T0 - i ** A
 
 def cooling_schedule_4(T0: float, TN: float, i: int, N: int) -> float:
-    return ((T0 - TN) / (1 + e ** (0.3 * (i - N / 2)))) + TN
+    return ((T0 - TN) / float(1 + euler ** Decimal((0.3 * (i - N / 2))))) + TN
 
 def cooling_schedule_5(T0: float, TN: float, i: int, N: int) -> float:
     return 0.5 * (T0 - TN) * (1 + cos((i * pi) / N)) + TN

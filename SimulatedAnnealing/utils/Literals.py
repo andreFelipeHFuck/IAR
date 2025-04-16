@@ -42,7 +42,7 @@ class Literals:
             else:
                 self._literals[i] = False
                 
-    def generate_neighbor(self, percen_num_reachead: float = 0.03) -> tuple['Literals', list[int]]:
+    def generate_neighbor(self, percen_num_reachead: float = 0.01) -> tuple['Literals', list[int]]:
         neighbor = Literals(self._num_literals)
         neighbor.set_literals(self._literals.copy())
         
