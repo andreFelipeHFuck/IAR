@@ -1,10 +1,10 @@
 from random import sample 
 
-class PermutedListException(Exception):
-    def __init__(self, message: str="Repeated number within the list"):
+class PermutedListRepeatedElementException(Exception):
+    def __init__(self, message: str="Repeated element within the list"):
         super().__init__(message)
 
-class PermutedListSwapIndexSwapException(Exception):
+class PermutedListSwapIndexException(Exception):
     def __init__(self, message: str="Index out of list range"):
         super().__init__(message)
 
@@ -20,7 +20,7 @@ class PermutedList:
             if not i in res:
                 res.append(i)
             else:
-                raise PermutedListException()
+                raise PermutedListRepeatedElementException
         
         return res
     
@@ -58,17 +58,28 @@ class PermutedList:
         return res
     
     def swap_elems(self, index: int) -> None:
-        if 0 >= index <= self._num_elems -1:
-            aux: int = self._list[index]
+        """
+        Performs the swap of a pair of elements according to an index,
+        the index by the first element causes it to be swap with its successor, 
+        only the last element is exchanged with its predecessor
+
+        Args:
+            index (int): index of the element to be exchanged
+
+        Raises:
+            PermutedListSwapIndexException: index out of range
+        """
+        if index >= 0 and index <= self._num_elems -1:
             
             if index == self._num_elems -1:
-                self._list[index] = self._list[index - 1]
-                self._list[index - 1] = aux
-            else:
-                self._list[index] = self._list[index + 1]
-                self._list[index + 1] = aux
-        
-        raise PermutedListSwapIndexSwapException()
+                index -= 1
+                
+            aux: int = self._list[index]
+            
+            self._list[index] = self._list[index + 1]
+            self._list[index + 1] = aux
+        else:
+            raise PermutedListSwapIndexException()
         
     def __str__(self) -> str:
         return self._list.__str__()

@@ -8,7 +8,7 @@ import csv
 
 from pysat.formula import CNF
 
-from calculations import Point
+from .calculations import Point
 
 def read_cnf_file(path: str) -> tuple[int, list[list[int]]]:
     sat = CNF(from_file=f"./samples/{path}")            

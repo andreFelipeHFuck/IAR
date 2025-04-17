@@ -4,6 +4,8 @@
 
 from .Literals import Literals
 from .Clauses import Clauses
+
+from .PermutedList import PermutedList, PermutedListRepeatedElementException, PermutedListSwapIndexException
 from .manipulationFile import read_cnf_file, write_csv_file
 from .cooling import *
 from .graphics import *
