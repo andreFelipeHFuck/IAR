@@ -59,9 +59,11 @@ class SolutionTSP:
         return neighbor
                 
     def __str__(self) -> str:
-        res = f"num_elements: {self._num_elements}\ndistance: {self._distance}\nelements: {self._elements}\n"
-        
-        return res
+         return  f"num_elements: {self._num_elements}\ndistance: {self._distance}\nelements: {self._elements}\n"
+    
+    def __repr__(self):
+        return  f"num_elements: {self._num_elements}\ndistance: {self._distance}\nelements: {self._elements}\n"
+
     
 if __name__ == "__main__":
     s: SolutionTSP = SolutionTSP(10)

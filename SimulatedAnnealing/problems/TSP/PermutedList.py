@@ -1,4 +1,4 @@
-from random import sample 
+from random import sample, choice 
 
 class PermutedListRepeatedElementException(Exception):
     def __init__(self, message: str="Repeated element within the list"):
@@ -78,13 +78,21 @@ class PermutedList:
         """
         if index >= 0 and index <= self._num_elems -1:
             
-            if index == self._num_elems -1:
-                index -= 1
+            # if index == self._num_elems -1:
+            #     index -= 1
                 
-            aux: int = self._list[index]
+            # aux: int = self._list[index]
             
-            self._list[index] = self._list[index + 1]
-            self._list[index + 1] = aux
+            # self._list[index] = self._list[index + 1]
+            # self._list[index + 1] = aux
+            
+            aux: int = self._list[index]
+            options: list[int] = [i for i in range(0, self._num_elems) if i != index]
+            other_index: int = choice(options)
+            
+            self._list[index] = self._list[other_index]
+            self._list[other_index] = aux
+            
         else:
             raise PermutedListSwapIndexException()
         

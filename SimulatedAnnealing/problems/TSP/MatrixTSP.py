@@ -41,7 +41,7 @@ class MatrixTSP:
         
         solutionTSP.set_distance(distance)
     
-    def calcule_delta_between_neighbors(self, solutionTSP: SolutionTSP, solutionTSP_neighbors: SolutionTSP) -> int:
+    def calcule_delta_between_neighbors(self, solutionTSP: SolutionTSP, solutionTSP_neighbors: SolutionTSP) -> float:
         
         self.calcule_distance(solutionTSP_neighbors)
         

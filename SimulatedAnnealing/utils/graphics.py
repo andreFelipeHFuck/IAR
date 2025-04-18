@@ -17,7 +17,7 @@ def create_plot(name: str, list_interation: list[int], list_values: list[int], l
     
     ax.set(
             xlim=(0, len(list_interation)), 
-            ylim=(0, max(list_values)),
+            ylim=(min(list_values), max(list_values)),
             xlabel='Iterações', 
             ylabel='Número de Cláusulas Falsas',
         )
@@ -37,6 +37,7 @@ def create_plot(name: str, list_interation: list[int], list_values: list[int], l
     fig.tight_layout()
     
     plt.savefig(f"images/{name}", format='png')
+    plt.show()
     plt.close()
     
 def create_box_plots(name: str, labels: list[str], weights: list[list[int]]) -> None:

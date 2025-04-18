@@ -1,6 +1,13 @@
 from abc import ABC, abstractmethod
 
 class ISimulatedAnnelingOperations(ABC):
+    @abstractmethod
+    def solution(self) -> object:
+        pass
+    
+    @abstractmethod
+    def get_solution(self) -> float:
+        pass
     
     @abstractmethod
     def best_solution(self) -> object:

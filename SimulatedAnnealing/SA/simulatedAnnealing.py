@@ -3,6 +3,9 @@ from typing import Callable
 from math import e
 from random import random
 
+from problems.SAT.Clauses import Clauses
+from problems.SAT.Literals import Literals
+
 from interfaces.ISimulatedAnnealingOperations import ISimulatedAnnelingOperations
 
 
@@ -71,8 +74,7 @@ def simulatedAnnealing(problem: ISimulatedAnnelingOperations, alpha: Callable[[f
     
     # while best_solution.get_num_clauses_falses() > 0 and T > TN:
     
-    while i < N:
-            
+    while i < N:            
         # best_solution_local: int = s.get_num_clauses_falses()
         while inter_T < SA_max:
 
@@ -85,29 +87,28 @@ def simulatedAnnealing(problem: ISimulatedAnnelingOperations, alpha: Callable[[f
             delta: float = problem.calcule_delta_solution_with_neighbor()
                         
             if delta < 0:
-                # s = n
-                problem.exchange_solution_for_neighbor
+                # s = n                
+                problem.exchange_solution_for_neighbor()
                 
                 # if n.get_num_clauses_falses() < best_solution.get_num_clauses_falses():
                 #     best_solution = n
-                
                 if problem.compare_best_solution_with_neighbor():
                     problem.exchange_best_solution_for_neighbor()
                     
+                print(i, delta)
             else:
                 x: float = random()
                                
                 if x < e ** (-delta / T):
                     # s = n
                     problem.exchange_solution_for_neighbor()
-
-            # if s.get_num_clauses_falses() < best_solution_local:
-            #     best_solution_local = s.get_num_clauses_falses()
-            #     T = alpha(T0, TN, i, N)
+                
+            T = alpha(T0, TN, i, N)
+        # print(i, T, problem.get_solution())
         
-        # list_interation.append(i)
-        # list_values.append(best_solution_local)
-        # list_temperature.append(T)
+        list_interation.append(i)
+        list_values.append(problem.get_solution())
+        list_temperature.append(T)
         
         inter_T = 0
         i += 1
