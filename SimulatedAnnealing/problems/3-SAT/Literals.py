@@ -2,7 +2,7 @@
     Represents the set of existing literals (variables)
 """
 
-from random import random, randint, sample
+from random import random, sample
 from math import ceil
 
 class Literals:
@@ -30,7 +30,7 @@ class Literals:
         if len(literals) == self._num_literals:
             self._literals = literals
         else:
-            raise TabError("The number of array elements must be equal to the number of literals")
+            raise Exception("The number of array elements must be equal to the number of literals")
             
     def neg_index(self, index: int) -> None:
         self._literals[index] = not self._literals[index]

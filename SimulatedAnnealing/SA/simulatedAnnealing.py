@@ -3,9 +3,7 @@ from typing import Callable
 from math import e
 from random import random
 
-
-from utils import Literals
-from utils import Clauses
+from interfaces.ISimulatedAnnealingOperations import ISimulatedAnnelingOperations
 
 
 def generate_T0_average(clauses: Clauses, num_literals: int, num_neighbors: int) -> float:
@@ -57,16 +55,16 @@ def generate_T0_simulated(clauses: Clauses, num_literals: int, SA_max: int, T0: 
         
     return T0
 
-def simulatedAnnealing(clauses: Clauses, alpha: Callable[[float, float, int, int] ,float], SA_max: int, T0: float, TN: float, N: int, s: Literals) -> tuple[Literals, list[int], list[int], list[int]]:
+def simulatedAnnealing(problem: ISimulatedAnnelingOperations, alpha: Callable[[float, float, int, int] ,float], SA_max: int, T0: float, TN: float, N: int) -> tuple[list[int], list[int], list[int]]:
     list_interation = []
     list_values = []
     list_temperature = []
     
     i: int = 0
     
-    best_solution: Literals = s
+    # best_solution: Literals = s
     
-    best_solution_cache: int = s.get_num_clauses_falses()
+    # best_solution_cache: int = s.get_num_clauses_falses()
         
     inter_T: int = 0
     T: float = T0
@@ -75,46 +73,53 @@ def simulatedAnnealing(clauses: Clauses, alpha: Callable[[float, float, int, int
     
     while i < N:
             
-        best_solution_local: int = s.get_num_clauses_falses()
+        # best_solution_local: int = s.get_num_clauses_falses()
         while inter_T < SA_max:
 
             inter_T += 1
             
-            n, list_i = s.generate_neighbor()
+            # n, list_i = s.generate_neighbor()
+            problem.generate_neighbor()
             
-            delta: int  = clauses.calcule_delta_between_neighbors(s, n, list_i)
+            # delta: int  = clauses.calcule_delta_between_neighbors(s, n, list_i)
+            delta: float = problem.calcule_delta_solution_with_neighbor()
                         
             if delta < 0:
-                s = n
+                # s = n
+                problem.exchange_solution_for_neighbor
                 
-                if n.get_num_clauses_falses() < best_solution.get_num_clauses_falses():
-                    best_solution = n
+                # if n.get_num_clauses_falses() < best_solution.get_num_clauses_falses():
+                #     best_solution = n
+                
+                if problem.compare_best_solution_with_neighbor():
+                    problem.exchange_best_solution_for_neighbor()
                     
             else:
                 x: float = random()
                                
                 if x < e ** (-delta / T):
-                    s = n
-                    
-            if s.get_num_clauses_falses() < best_solution_local:
-                best_solution_local = s.get_num_clauses_falses()
-                T = alpha(T0, TN, i, N)
+                    # s = n
+                    problem.exchange_solution_for_neighbor()
+
+            # if s.get_num_clauses_falses() < best_solution_local:
+            #     best_solution_local = s.get_num_clauses_falses()
+            #     T = alpha(T0, TN, i, N)
         
-        list_interation.append(i)
-        list_values.append(best_solution_local)
-        list_temperature.append(T)
+        # list_interation.append(i)
+        # list_values.append(best_solution_local)
+        # list_temperature.append(T)
         
         inter_T = 0
         i += 1
         
-        if best_solution.get_num_clauses_falses() < best_solution_cache:
-            print(f"T: {T}, i: {i},  Best Solution: {best_solution.get_num_clauses_falses()}")
-            best_solution_cache = best_solution.get_num_clauses_falses() 
+        # if best_solution.get_num_clauses_falses() < best_solution_cache:
+        #     print(f"T: {T}, i: {i},  Best Solution: {best_solution.get_num_clauses_falses()}")
+        #     best_solution_cache = best_solution.get_num_clauses_falses() 
         
         
         
-    print(f"\nBest Solution: {best_solution.get_num_clauses_falses()}\n")  
+    # print(f"\nBest Solution: {best_solution.get_num_clauses_falses()}\n")  
     
-    return best_solution, list_interation, list_values, list_temperature
+    return problem.best_solution(), list_interation, list_values, list_temperature
     
     

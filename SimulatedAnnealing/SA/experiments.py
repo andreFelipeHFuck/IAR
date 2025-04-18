@@ -9,7 +9,7 @@ from utils.manipulationFile import read_cnf_file, write_csv_file, read_csv_file
 from utils.Clauses import Clauses
 from utils.Literals import Literals
 
-from simulatedAnnealing import simulatedAnnealing, generate_T0_average, generate_T0_simulated
+from SimulatedAnnealing.SA.simulatedAnnealing import simulatedAnnealing, generate_T0_average, generate_T0_simulated
 
 from variables import *
 

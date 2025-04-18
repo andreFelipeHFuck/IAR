@@ -24,8 +24,15 @@ class PermutedList:
         
         return res
     
+    
+    def get_num_elements(self) -> int:
+        return self._num_elems
+    
+    def get_element(self, index: int) -> int:
+        return self._list[index]
+    
     @staticmethod
-    def random_list(self, max: int, num_elems: int) -> 'PermutedList':
+    def generate_random_list(num_elems: int) -> 'PermutedList':
         """
         Returns a PermutedList containing a list of random elements from 0 to N of a specified size.
         
@@ -36,7 +43,7 @@ class PermutedList:
         Returns:
             PermutedList: permuted list of elements created with random values
         """
-        return PermutedList(sample(0, max), num_elems)
+        return PermutedList(sample([i for i in range(0, num_elems)], k=num_elems))
     
     def list_elems(self) -> list[int]:
         return self._list
@@ -85,5 +92,7 @@ class PermutedList:
         return self._list.__str__()
     
 if __name__ == "__main__":
-    lp: PermutedList = PermutedList([1, 2])
+    print(sample([i for i in range(0, 10)], k=10))
+    lp: PermutedList = PermutedList.generate_random_list(10)
     print(lp)
+    

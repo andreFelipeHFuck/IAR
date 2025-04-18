@@ -1,4 +1,4 @@
-from experiments import experiment
+from SimulatedAnnealing.SA.experiments import experiment
 from utils.manipulationFile import read_csv_file
 from utils.graphics import create_box_plots
 

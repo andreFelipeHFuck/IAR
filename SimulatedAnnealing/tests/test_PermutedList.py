@@ -5,6 +5,13 @@ from utils.PermutedList import *
 def test_repeated_element_exception():
     with pytest.raises(PermutedListRepeatedElementException):
         pl: PermutedList = PermutedList([1, 1])
+        
+def generate_random_list():
+    pl: PermutedList = PermutedList.generate_random_list(3, 3)
+    l: list[int] = pl.list_elems()
+    
+    assert len(l) == 3
+    assert all(0 <= x < 3 for x in l)
 
 def test_swap_index_exception():
     with pytest.raises(PermutedListSwapIndexException):

@@ -1,5 +1,5 @@
 from utils import cooling
-from simulatedAnnealing import generate_T0_average
+from SimulatedAnnealing.SA.simulatedAnnealing import generate_T0_average
 
 
 RESULTS_CSV: str = "logs/results.csv"
