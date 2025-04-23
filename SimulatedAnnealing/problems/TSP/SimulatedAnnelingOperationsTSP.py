@@ -6,8 +6,9 @@ from interfaces.ISimulatedAnnealingOperations import ISimulatedAnnelingOperation
 
 class SimulatedAnnelingOperationsTSP(ISimulatedAnnelingOperations):
     def __init__(self, points: list[Point] ):
+        self._num_points: int = len(points)
         self._matrix: MatrixTSP = MatrixTSP(points)
-        self._solution: SolutionTSP = SolutionTSP(len(points))
+        self._solution: SolutionTSP = SolutionTSP(self._num_points)
         self._neighbor: SolutionTSP = None
         
         self._solution.generate_random_elements()
@@ -43,3 +44,19 @@ class SimulatedAnnelingOperationsTSP(ISimulatedAnnelingOperations):
         
     def exchange_best_solution_for_neighbor(self) -> None:
         self._best_solution = self._neighbor
+        
+    def generate_T0_average(self, num_neighbors: int) -> float:
+        solution: SolutionTSP = SolutionTSP(self._num_points)
+        solution.generate_random_elements()
+        self._matrix.calcule_distance(solution)
+        
+        best_neighbor: int = 0
+        list_neighbor: list[SolutionTSP] = [solution.generate_neighbor() for _ in range(0, num_neighbors)]
+        
+        for n in list_neighbor:
+            distance: float = self._matrix.calcule_delta_between_neighbors(solution, n)
+            
+            if distance > best_neighbor:
+                best_neighbor = distance
+                
+        return best_neighbor

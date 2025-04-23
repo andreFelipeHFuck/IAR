@@ -36,3 +36,7 @@ class ISimulatedAnnelingOperations(ABC):
     @abstractmethod
     def exchange_best_solution_for_neighbor(self) -> None:
         pass
+    
+    @abstractmethod
+    def generate_T0_average(self, num_neighbors: int) -> float:
+        pass

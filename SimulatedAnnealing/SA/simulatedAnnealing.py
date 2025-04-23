@@ -6,25 +6,7 @@ from random import random
 from problems.SAT.Clauses import Clauses
 from problems.SAT.Literals import Literals
 
-from interfaces.ISimulatedAnnealingOperations import ISimulatedAnnelingOperations
-
-
-def generate_T0_average(clauses: Clauses, num_literals: int, num_neighbors: int) -> float:
-    l = Literals(num_literals)
-    l.generate_random_literals()
-    
-    clauses.cont_clauses_falses(l, [i for i in range(0, l.get_num_literals())])
-    
-    best_neighbor = 0
-    list_neighbor = [l.generate_neighbor() for i in range(0, num_neighbors)]
-    
-    for n in list_neighbor:
-        clauses.calcule_delta_between_neighbors(l, n[0], n[1])
-        
-        if n[0].get_num_clauses_falses() > best_neighbor:
-            best_neighbor = n[0].get_num_clauses_falses()
-            
-    return float(best_neighbor)
+from interfaces.ISimulatedAnnealingOperations import ISimulatedAnnelingOperations as ISA
 
 def generate_T0_simulated(clauses: Clauses, num_literals: int, SA_max: int, T0: float, acceptance_rate: float) -> float:
     num_neighbor_acceptances = 0
@@ -58,7 +40,7 @@ def generate_T0_simulated(clauses: Clauses, num_literals: int, SA_max: int, T0: 
         
     return T0
 
-def simulatedAnnealing(problem: ISimulatedAnnelingOperations, alpha: Callable[[float, float, int, int] ,float], SA_max: int, T0: float, TN: float, N: int) -> tuple[list[int], list[int], list[int]]:
+def simulatedAnnealing(problem: ISA, alpha: Callable[[float, float, int, int] ,float], SA_max: int, T0: float, TN: float, N: int) -> tuple[list[int], list[int], list[int]]:
     list_interation = []
     list_values = []
     list_temperature = []
@@ -95,7 +77,6 @@ def simulatedAnnealing(problem: ISimulatedAnnelingOperations, alpha: Callable[[f
                 if problem.compare_best_solution_with_neighbor():
                     problem.exchange_best_solution_for_neighbor()
                     
-                print(i, delta)
             else:
                 x: float = random()
                                
