@@ -48,14 +48,20 @@ def create_plot(
     
     fig.tight_layout()
     
-    plt.savefig(f"images/{name}", format='png')
+    plt.savefig(f"{name}", format='png')
     plt.show()
     plt.close()
     
-def create_box_plots(name: str, labels: list[str], weights: list[list[int]]) -> None:
+def create_box_plots(
+    name: str, 
+    ylabel: str = 'Número de Cláusulas Falsas',
+    labels: list[str] = [], 
+    weights: list[list[int]] = []
+    ) -> None:
+    
     fig, ax = plt.subplots()
         
-    ax.set_ylabel('Número de Cláusulas Falsas')
+    ax.set_ylabel(ylabel)
     
     bplot = ax.boxplot(
         weights,
@@ -63,5 +69,6 @@ def create_box_plots(name: str, labels: list[str], weights: list[list[int]]) -> 
         tick_labels=labels
     )
         
-    plt.savefig(f"images/{name}.png", format='png')
+    plt.savefig(f"{name}", format='png')
+    plt.show()
     plt.close()
