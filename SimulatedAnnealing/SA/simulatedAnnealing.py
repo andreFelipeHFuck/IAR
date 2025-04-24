@@ -3,6 +3,8 @@ from typing import Callable
 from math import e
 from random import random
 
+from tqdm import tqdm
+
 from problems.SAT.Clauses import Clauses
 from problems.SAT.Literals import Literals
 
@@ -41,6 +43,8 @@ def generate_T0_simulated(clauses: Clauses, num_literals: int, SA_max: int, T0: 
     return T0
 
 def simulatedAnnealing(problem: ISA, alpha: Callable[[float, float, int, int] ,float], SA_max: int, T0: float, TN: float, N: int) -> tuple[list[int], list[int], list[int]]:
+    pbar = tqdm(total=N, desc="Loading")
+    
     list_interation = []
     list_values = []
     list_temperature = []
@@ -93,6 +97,7 @@ def simulatedAnnealing(problem: ISA, alpha: Callable[[float, float, int, int] ,f
         
         inter_T = 0
         i += 1
+        pbar.update(1)
         
         # if best_solution.get_num_clauses_falses() < best_solution_cache:
         #     print(f"T: {T}, i: {i},  Best Solution: {best_solution.get_num_clauses_falses()}")
@@ -102,6 +107,7 @@ def simulatedAnnealing(problem: ISA, alpha: Callable[[float, float, int, int] ,f
         
     # print(f"\nBest Solution: {best_solution.get_num_clauses_falses()}\n")  
     
+    pbar.close()
     return problem.best_solution(), list_interation, list_values, list_temperature
     
     

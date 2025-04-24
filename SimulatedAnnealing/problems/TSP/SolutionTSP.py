@@ -43,11 +43,11 @@ class SolutionTSP:
     def swap_element(self, index: int) -> None:
         self._elements.swap_elems(index)
     
-    def generate_neighbor(self) -> 'SolutionTSP':
+    def generate_neighbor(self, num_neighbors=1) -> 'SolutionTSP':
         neighbor: SolutionTSP = SolutionTSP(self._num_elements)
         neighbor.set_elements(PermutedList(self._elements.list_elems()))
         
-        num_random_index_changed:int = randint(1, 5)
+        num_random_index_changed:int = randint(1, num_neighbors)
         
         for i in sample([k for k in range(0, self._num_elements)], num_random_index_changed):
             try:

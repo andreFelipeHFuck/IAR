@@ -5,8 +5,10 @@ from problems.TSP.SolutionTSP import SolutionTSP
 from interfaces.ISimulatedAnnealingOperations import ISimulatedAnnelingOperations
 
 class SimulatedAnnelingOperationsTSP(ISimulatedAnnelingOperations):
-    def __init__(self, points: list[Point] ):
+    def __init__(self, points: list[Point], num_neighbors):
         self._num_points: int = len(points)
+        self._num_neighbors: int = num_neighbors
+        
         self._matrix: MatrixTSP = MatrixTSP(points)
         self._solution: SolutionTSP = SolutionTSP(self._num_points)
         self._neighbor: SolutionTSP = None
@@ -31,7 +33,7 @@ class SimulatedAnnelingOperationsTSP(ISimulatedAnnelingOperations):
         return self._best_solution.get_distance()
     
     def generate_neighbor(self) -> None:
-        self._neighbor = self._solution.generate_neighbor()
+        self._neighbor = self._solution.generate_neighbor(self._num_neighbors)
         
     def calcule_delta_solution_with_neighbor(self) -> float:
         return self._matrix.calcule_delta_between_neighbors(self._solution, self._neighbor)
