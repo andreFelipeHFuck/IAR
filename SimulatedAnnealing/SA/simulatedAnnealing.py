@@ -8,6 +8,8 @@ from tqdm import tqdm
 from problems.SAT.Clauses import Clauses
 from problems.SAT.Literals import Literals
 
+from utils.cooling import cooling_schedule_10
+
 from interfaces.ISimulatedAnnealingOperations import ISimulatedAnnelingOperations as ISA
 
 def generate_T0_simulated(clauses: Clauses, num_literals: int, SA_max: int, T0: float, acceptance_rate: float) -> float:
@@ -42,42 +44,39 @@ def generate_T0_simulated(clauses: Clauses, num_literals: int, SA_max: int, T0: 
         
     return T0
 
-def simulatedAnnealing(problem: ISA, alpha: Callable[[float, float, int, int] ,float], SA_max: int, T0: float, TN: float, N: int) -> tuple[list[int], list[int], list[int]]:
-    pbar = tqdm(total=N, desc="Loading")
+def simulatedAnnealing(problem: ISA, 
+                       alpha: Callable[[float, float, int, int] ,float] | Callable[[int, int, int], float], 
+                       SA_max: int, 
+                       T0: float, 
+                       TN: float, 
+                       N: int, 
+                       t: int = 1,
+                       bar: bool=False) -> tuple[list[int], list[int], list[int]]:
+    if bar:
+        pbar = tqdm(total=N, desc="Loading")
     
     list_interation = []
     list_values = []
     list_temperature = []
     
     i: int = 0
-    
-    # best_solution: Literals = s
-    
-    # best_solution_cache: int = s.get_num_clauses_falses()
         
     inter_T: int = 0
     T: float = T0
-    
-    # while best_solution.get_num_clauses_falses() > 0 and T > TN:
-    
+        
     while i < N:            
-        # best_solution_local: int = s.get_num_clauses_falses()
         while inter_T < SA_max:
 
             inter_T += 1
             
-            # n, list_i = s.generate_neighbor()
             problem.generate_neighbor()
             
-            # delta: int  = clauses.calcule_delta_between_neighbors(s, n, list_i)
             delta: float = problem.calcule_delta_solution_with_neighbor()
                         
             if delta < 0:
-                # s = n                
                 problem.exchange_solution_for_neighbor()
                 
-                # if n.get_num_clauses_falses() < best_solution.get_num_clauses_falses():
-                #     best_solution = n
+        
                 if problem.compare_best_solution_with_neighbor():
                     problem.exchange_best_solution_for_neighbor()
                     
@@ -85,11 +84,12 @@ def simulatedAnnealing(problem: ISA, alpha: Callable[[float, float, int, int] ,f
                 x: float = random()
                                
                 if x < e ** (-delta / T):
-                    # s = n
                     problem.exchange_solution_for_neighbor()
-                
-            T = alpha(T0, TN, i, N)
-        # print(i, T, problem.get_solution())
+            
+            if alpha == cooling_schedule_10:
+                T = alpha(i, N, t)
+            else:
+                T = alpha(T0, TN, i, N)
         
         list_interation.append(i)
         list_values.append(problem.get_solution())
@@ -97,17 +97,14 @@ def simulatedAnnealing(problem: ISA, alpha: Callable[[float, float, int, int] ,f
         
         inter_T = 0
         i += 1
-        pbar.update(1)
         
-        # if best_solution.get_num_clauses_falses() < best_solution_cache:
-        #     print(f"T: {T}, i: {i},  Best Solution: {best_solution.get_num_clauses_falses()}")
-        #     best_solution_cache = best_solution.get_num_clauses_falses() 
+        if bar:
+            pbar.update(1)
+        
+    if bar:    
+        pbar.close()
         
         
-        
-    # print(f"\nBest Solution: {best_solution.get_num_clauses_falses()}\n")  
-    
-    pbar.close()
     return problem.best_solution(), list_interation, list_values, list_temperature
     
     

@@ -12,7 +12,8 @@ def create_plot(
         list_interation: list[int] = [], 
         list_values: list[int] = [], 
         list_temperature: list[int] = [], 
-        eq: int = 0
+        eq: int = 0,
+        show: bool = False
         
     ) -> None:    
     fig, ax = plt.subplots()
@@ -49,14 +50,16 @@ def create_plot(
     fig.tight_layout()
     
     plt.savefig(f"{name}", format='png')
-    plt.show()
+    if show:
+        plt.show()
     plt.close()
     
 def create_box_plots(
     name: str, 
     ylabel: str = 'Número de Cláusulas Falsas',
     labels: list[str] = [], 
-    weights: list[list[int]] = []
+    weights: list[list[int]] = [],
+    show: bool = False
     ) -> None:
     
     fig, ax = plt.subplots()
@@ -70,5 +73,6 @@ def create_box_plots(
     )
         
     plt.savefig(f"{name}", format='png')
-    plt.show()
+    if show:
+        plt.show()
     plt.close()
