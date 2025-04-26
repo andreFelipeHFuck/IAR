@@ -18,7 +18,7 @@ equations = {
     6: r"$T_i = \frac{1}{2}(T_0 - T_N)(1 - \tanh(\frac{10i}{N} - 5)) + T_N$",
     7: r"$T_i = \frac{(T_0 - T_N)}{\cosh(\frac{10i}{N})} + T_N$",
     8: r"$T_i = T_0e ^{-Ai}$,$A = \frac{1}{N} + \ln(\frac{T_0}{T_N})$",
-    9: r"$T_i = T_0e ^{-Ai^2}$,$A = (\frac{1}{N ^ 2})\ln(\frac{T_0}{T_N})$",
+    9: r"$T_i = T_0e ^{-Ai^2}$,$A = (\frac{1}{N^2})\ln(\frac{T_0}{T_N})$",
     10: r"$T_i = (1 - \frac{i}{N})^t$"
 }
 
