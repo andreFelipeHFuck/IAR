@@ -61,6 +61,9 @@ class PermutedList:
         for i in range(1, self._num_elems):
             res.append((elem, self._list[i]))
             elem = self._list[i]
+            
+            
+        res += [(self._list[-1], self._list[0])]
         
         return res
     

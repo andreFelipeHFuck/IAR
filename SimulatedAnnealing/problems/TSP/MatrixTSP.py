@@ -36,7 +36,7 @@ class MatrixTSP:
     
     def calcule_distance(self, solutionTSP: SolutionTSP) -> None:
         list_pair_elems: list[(int, int)] = solutionTSP.get_list_pair_elems()
-        
+                
         distance: int = sum([self.__get_value_matrix(i) for i in list_pair_elems])
         
         solutionTSP.set_distance(distance)
