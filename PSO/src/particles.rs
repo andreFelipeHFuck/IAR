@@ -1,8 +1,55 @@
 use std::fmt;
 
-use crate::utils;
-
 use crate::benchmark_functions;
+
+
+pub fn create_random_matrix(dim: usize, num: usize, range: (f32, f32)) -> Result<Vec<Vec<f32>>, benchmark_functions::FuncError
+> {
+    let mut res_vec: Vec<Vec<f32>> = vec![vec![0.0;dim];num];
+
+    if range.1 > range.0 {
+        for i in 0..num{
+            for j in 0..dim{
+                res_vec[i][j] = rand::random_range(range.0..=range.1);
+            }
+        }
+
+        Ok(res_vec)
+    }else{
+        Err(benchmark_functions::FuncError::OutOfDomain)
+    }
+}
+
+pub fn create_random_vec(num: usize, range: (f32, f32)) -> Result<Vec<f32>, benchmark_functions::FuncError> {
+    let mut res_vec: Vec<f32> = vec![0.0;num];
+
+    if range.1 > range.0 {
+        for i in 0..res_vec.len(){
+            res_vec[i] = rand::random_range(range.0..=range.1);
+        }
+        
+        Ok(res_vec)
+    }else{
+        Err(benchmark_functions::FuncError::OutOfDomain)
+    }
+}
+
+
+pub fn smallest_solution(matrix: &Vec<Vec<f32>>) -> Vec<f32> {
+    let mut res = vec![
+        matrix[0][0],
+        matrix[0][1],
+    ];
+
+    for i in 0..matrix.len() {
+        if matrix[i][0] < res[0] && matrix[i][1] < res[1] {
+            res[0] = matrix[i][0];
+            res[1] = matrix[i][1];
+        }
+    }
+
+    res
+}
 
 #[derive(Debug)]
 pub struct Particles {
@@ -49,20 +96,20 @@ impl Particles {
             // Calculo de contrição
         }
 
-        let X = utils::create_random_matrix(dim as usize, n as usize, (x.0, x.1))?;
+        let X = create_random_matrix(dim as usize, n as usize, (x.0, x.1))?;
 
         Ok(Particles {
             num: n,
             dimensions: dim,
             func: f,
 
-            best_solution: utils::smallest_solution(&X, (x.0, x.1)),
+            best_solution: smallest_solution(&X),
 
             X: X.clone(),
             X_min: x.0,
             X_max: x. 1,
 
-            V: utils::create_random_matrix(dim as usize, n as usize, (x.0, x.1))?,
+            V: create_random_matrix(dim as usize, n as usize, (x.0, x.1))?,
             V_min: x.0,
             V_max: x.1, 
 
@@ -70,8 +117,8 @@ impl Particles {
             c_1: 2.05,
             c_2: 2.05,
 
-            r_1: utils::create_random_vec(n as usize, (0.0, 1.0))?,
-            r_2: utils::create_random_vec(n as usize, (0.0, 1.0))?,
+            r_1: create_random_vec(n as usize, (0.0, 1.0))?,
+            r_2: create_random_vec(n as usize, (0.0, 1.0))?,
 
             w: w,
             k: res_k

@@ -50,3 +50,4 @@ pub fn ackley(dim: u32, values: &Vec<f32>) -> Result<f32, FuncError> {
 
     Ok(a * (-b * (div_dim * aux).sqrt()).exp() - (div_dim * aux1).exp() + a + 1f32.exp())
 }
+
