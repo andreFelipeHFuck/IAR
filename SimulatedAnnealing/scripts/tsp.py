@@ -41,9 +41,7 @@ def experiment_one_SA(problem: str,
     }
     
     solutions: list[int] = []
-    
-    dataset: dict = {}
-    
+        
     best_solution: int = 1_000_000
     best_list_interation: list[int]
     best_list_values: list[int]

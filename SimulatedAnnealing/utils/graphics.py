@@ -2,6 +2,40 @@ from .cooling import equations
 
 import matplotlib.pyplot as plt 
 
+def create_con_graph(
+    name: str,
+    title: str,
+    xlabel: str,
+    ylabel: str,
+    ax_label: str,
+    list_x,
+    list_y,
+    show: bool = False
+    ):
+    
+    fig, ax = plt.subplots()
+    color_ax = 'tab:blue'
+
+    
+    ax.grid(True, linestyle='-.')
+    ax.set_title(title, fontsize='10')
+    
+    ax.set_xscale('log')
+    ax.plot(list_x, list_y, linewidth=2, color=color_ax, label=ax_label)
+    
+    ax.set(
+            xlim=(0, len(list_x)), 
+            ylim=(min(list_y), max(list_y)),
+            xlabel=xlabel, 
+            ylabel=ylabel,
+        )
+    ax.set_ylabel(ylabel, color=color_ax)
+
+    plt.savefig(f"{name}", format='png')
+    if show:
+        plt.show()
+    plt.close()
+
 def create_plot(
         name: str, 
         title: str = 'Gráfico de Convergência do Simulated Annealing para 3-SAT',
@@ -52,7 +86,7 @@ def create_plot(
     plt.savefig(f"{name}", format='png')
     if show:
         plt.show()
-    plt.close()
+    plt.close()    
     
 def create_box_plots(
     name: str, 

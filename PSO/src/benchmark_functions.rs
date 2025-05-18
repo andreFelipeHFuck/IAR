@@ -1,5 +1,7 @@
 use core::fmt;
 
+use rand::seq::IndexedRandom;
+
 #[derive(Debug)]
 pub enum FuncError {
     OutOfDomain
@@ -30,7 +32,7 @@ pub fn griewank(dim: u32, values: &Vec<f32>) -> Result<f32, FuncError>{
 pub fn ackley(dim: u32, values: &Vec<f32>) -> Result<f32, FuncError> {
     let a = 20f32;
     let b = 0.2f32;
-    let c = 2.0 * std::f32::consts::PI;
+    let c = 2f32 * std::f32::consts::PI;
 
     let div_dim = 1f32 / dim as f32;
 
@@ -40,7 +42,7 @@ pub fn ackley(dim: u32, values: &Vec<f32>) -> Result<f32, FuncError> {
     for i in 1..=dim{
         if values[(i - 1) as usize] >=-32f32 || values[(i - 1) as usize] <= 32f32 {
             aux += values[(i - 1) as usize].powf(2f32);
-            aux1 += c*values[(i - 1) as usize].cos();
+            aux1 += (c*values[(i - 1) as usize]).cos();
 
         }else{
             return Err(FuncError::OutOfDomain);
@@ -48,6 +50,6 @@ pub fn ackley(dim: u32, values: &Vec<f32>) -> Result<f32, FuncError> {
 
     }
 
-    Ok(a * (-b * (div_dim * aux).sqrt()).exp() - (div_dim * aux1).exp() + a + 1f32.exp())
+    Ok(-a * (-b * (div_dim * aux).sqrt()).exp() - (div_dim * aux1).exp() + a + 1f32.exp())
 }
 
